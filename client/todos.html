@@ -73,10 +73,16 @@
       <div class="destroy"></div>
       <div class="display">
         <input class="check" name="markdone" type="checkbox" checked={{done}} />
-        <div class="todo-text">{{text}}</div>
+        <div class="todo-text">{{text}}
+        </div>
       </div>
     {{/if}}
     <div class="item-tags">
+            <div class="donetime">
+        {{#if done}}
+            done on {{doneTime}}
+        {{/if}}
+        </div>
       {{#each tag_objs}}
         <div class="tag removable_tag">
           <div class="name">{{tag}}</div>

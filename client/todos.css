@@ -75,7 +75,7 @@ h3 {
     background: #ddd;
 }
 
-.tag {
+.tag, .donetime{
     cursor: pointer;
     float: left;
     margin: 5px;
@@ -96,6 +96,12 @@ h3 {
     -o-transition: opacity 0.3s linear;
 
     position: relative;
+}
+
+.donetime{
+    font-style: italic;
+    background: none;
+    color: darkgrey;
 }
 
 #tag-filter .label {
@@ -201,6 +207,11 @@ h3 {
     color: #999;
 }
 
+#item-list .done .todo-donetime {
+    right: 0px;
+    color: #999;
+}
+
 #item-list .todo:hover .destroy {
     background: url('/destroy.png') no-repeat 0 0;
 }
@@ -215,7 +226,7 @@ h3 {
     margin-right: 8px;
 }
 
-#item-list .todo .item-tags .tag {
+#item-list .todo .item-tags .tag, .donetime {
     margin-top: 15px;
 }
 
