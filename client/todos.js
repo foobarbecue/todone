@@ -200,18 +200,33 @@ Template.todo_item.adding_tag = function () {
   return Session.equals('editing_addtag', this._id);
 };
 
-Template.todo_item.timer = function () {
-  
-};
+startTimer = function (item_id) {
+    timerId = setInterval(
+        function(){
+        Todos.update(item_id, {$inc: {total_time: 1}});
+        console.log(item_id)},
+        1000
+    );
+}
 
-        startTimer = function (item_id) {
-            timerId = setInterval(
-                function(){
-                Todos.update(item_id, {$inc: {total_time: 1}});
-                console.log(item_id)},
-                1000
-            );
-        }
+stopTimer = function(){
+    clearInterval(timerId)
+}
+
+UI.registerHelper(
+    'humanizeTime',
+    function(seconds) {
+        var hh = Math.floor(seconds / 3600);
+        var mm = Math.floor((seconds - (hh * 3600)) / 60);
+        var ss = seconds - (hh * 3600) - (mm * 60);
+
+        if (hh < 10) {hh = '0' + hh}
+        if (mm < 10) {mm = '0' + mm}
+        if (ss < 10) {ss = '0' + ss}
+
+        return hh + ':' + mm + ':' + ss;
+    }
+   )
 
 Template.todo_item.events({
   'click .markdone': function () {
@@ -220,9 +235,11 @@ Template.todo_item.events({
   
   'click .markinprogress': function (event) {
     if (!!event.currentTarget.checked){
-    Session.set('in_progress_item', this);
-    startTimer(this._id);
-    }
+        Session.set('in_progress_item', this);
+        startTimer(this._id);
+    }else{
+        stopTimer();
+    };
   },
 
   'click .destroy': function () {

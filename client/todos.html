@@ -75,16 +75,18 @@
         <input class="check markdone" name="markdone" type="checkbox" checked={{done}} />Done
         <input class="check markinprogress" name="markinprogress" type="checkbox" checked={{inprogress}} />Active
         <div class="todo-text">{{text}}
-        </div>
-        <div class="timer">
-            {{total_time}}
-        </div>        
+        </div> 
       </div>
     {{/if}}
     <div class="item-tags">
+        <div class="timer">
+        {{#if total_time}}
+            {{humanizeTime total_time}} spent.
+        {{/if}}
+        </div>       
             <div class="donetime">
         {{#if done}}
-            done on {{doneTime}}
+            Completed {{doneTime}}
         {{/if}}
         </div>
       {{#each tag_objs}}

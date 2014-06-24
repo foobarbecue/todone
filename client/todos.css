@@ -75,7 +75,7 @@ h3 {
     background: #ddd;
 }
 
-.tag, .donetime{
+.tag, .donetime, .timer{
     cursor: pointer;
     float: left;
     margin: 5px;
@@ -98,10 +98,14 @@ h3 {
     position: relative;
 }
 
-.donetime{
+.donetime, .timer{
     font-style: italic;
     background: none;
     color: darkgrey;
+}
+
+.timer{
+    display: inline;
 }
 
 #tag-filter .label {
@@ -226,7 +230,7 @@ h3 {
     margin-right: 8px;
 }
 
-#item-list .todo .item-tags .tag, .donetime {
+#item-list .todo .item-tags .tag, .donetime, .timer {
     margin-top: 15px;
 }
 
@@ -258,9 +262,9 @@ h3 {
 }
 
 #item-list .todo .todo-text {
-    float: left;
     margin-left: 10px;
     font-size: 100%;
+    display: inline;
 }
 
 #item-list .todo .edit input {
