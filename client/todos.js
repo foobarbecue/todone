@@ -204,7 +204,6 @@ startTimer = function (item_id) {
     timerId = setInterval(
         function(){
         Todos.update(item_id, {$inc: {total_time: 1}});
-        console.log(item_id)},
         1000
     );
 }
@@ -220,11 +219,16 @@ UI.registerHelper(
         var mm = Math.floor((seconds - (hh * 3600)) / 60);
         var ss = seconds - (hh * 3600) - (mm * 60);
 
-        if (hh < 10) {hh = '0' + hh}
         if (mm < 10) {mm = '0' + mm}
         if (ss < 10) {ss = '0' + ss}
-
-        return hh + ':' + mm + ':' + ss;
+        
+        if (hh > 0){
+            if (hh < 10) {hh = '0' + hh}
+            return hh + ':' + mm + ':' + ss;
+        } else {
+            return mm + ':' + ss;
+        }
+        
     }
    )
 
