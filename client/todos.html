@@ -72,9 +72,13 @@
     {{else}}
       <div class="destroy"></div>
       <div class="display">
-        <input class="check" name="markdone" type="checkbox" checked={{done}} />
+        <input class="check markdone" name="markdone" type="checkbox" checked={{done}} />Done
+        <input class="check markinprogress" name="markinprogress" type="checkbox" checked={{inprogress}} />Active
         <div class="todo-text">{{text}}
         </div>
+        <div class="timer">
+            {{total_time}}
+        </div>        
       </div>
     {{/if}}
     <div class="item-tags">

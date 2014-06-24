@@ -188,6 +188,10 @@ Template.todo_item.done_class = function () {
   return this.done ? 'done' : '';
 };
 
+Template.todo_item.in_progress = function () {
+  return Session.get('in_progress_item') === this;
+};
+
 Template.todo_item.editing = function () {
   return Session.equals('editing_itemname', this._id);
 };
@@ -196,9 +200,29 @@ Template.todo_item.adding_tag = function () {
   return Session.equals('editing_addtag', this._id);
 };
 
+Template.todo_item.timer = function () {
+  
+};
+
+        startTimer = function (item_id) {
+            timerId = setInterval(
+                function(){
+                Todos.update(item_id, {$inc: {total_time: 1}});
+                console.log(item_id)},
+                1000
+            );
+        }
+
 Template.todo_item.events({
-  'click .check': function () {
+  'click .markdone': function () {
     Todos.update(this._id, {$set: {done: !this.done, doneTime: Date()}});
+  },
+  
+  'click .markinprogress': function (event) {
+    if (!!event.currentTarget.checked){
+    Session.set('in_progress_item', this);
+    startTimer(this._id);
+    }
   },
 
   'click .destroy': function () {
