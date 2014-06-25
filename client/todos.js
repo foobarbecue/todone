@@ -203,13 +203,14 @@ Template.todo_item.adding_tag = function () {
 startTimer = function (item_id) {
     timerId = setInterval(
         function(){
-        Todos.update(item_id, {$inc: {total_time: 1}});
+        Todos.update(item_id, {$inc: {total_time: 1}})},
         1000
     );
 }
 
 stopTimer = function(){
-    clearInterval(timerId)
+    clearInterval(timerId);
+    Todos.update();
 }
 
 UI.registerHelper(
@@ -234,15 +235,17 @@ UI.registerHelper(
 
 Template.todo_item.events({
   'click .markdone': function () {
-    Todos.update(this._id, {$set: {done: !this.done, doneTime: Date()}});
+    Todos.update(this._id, {$set: {done: !this.done, done_time: Date()}});
   },
   
   'click .markinprogress': function (event) {
     if (!!event.currentTarget.checked){
         Session.set('in_progress_item', this);
         startTimer(this._id);
+        Todos.update({$push: {start_times:Date.now()}});
     }else{
         stopTimer();
+        Todos.update({$push: {stop_times:Date.now()}});
     };
   },
 

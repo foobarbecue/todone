@@ -104,6 +104,10 @@ h3 {
     color: darkgrey;
 }
 
+.active{
+    color: green;
+}
+
 .timer{
     display: inline;
 }
