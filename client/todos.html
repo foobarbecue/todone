@@ -3,16 +3,13 @@
 </head>
 
 <body>
+  {{> loginButtons align="right"}}
   <div id="top-tag-filter">
     {{> tag_filter}}
   </div>
 
   <div id="main-pane">
     {{> todos}}
-  </div>
-
-  <div id="side-pane">
-    {{> lists}}
   </div>
 </body>
 
@@ -45,7 +42,7 @@
 </template>
 
 <template name="todos">
-  {{#if any_list_selected}}
+  {{#if currentUser}}
     <div id="items-view">
       {{#if loading}}
         Loading...

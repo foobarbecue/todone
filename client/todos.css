@@ -48,7 +48,6 @@ h3 {
 }
 
 #top-tag-filter {
-    left: 200px;
     height: 44px;
     bottom: auto;
     background: #ddd;
@@ -62,7 +61,6 @@ h3 {
 #main-pane {
     top: 45px;
     bottom: 0;
-    left: 220px;
     overflow: auto;
 }
 
@@ -279,3 +277,8 @@ h3 {
     width: 80px;
 }
 
+#login-buttons {
+    position: absolute;
+    right: 0px;
+    z-index: 1;
+}
