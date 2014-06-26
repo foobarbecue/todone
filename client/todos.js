@@ -83,7 +83,7 @@ Template.todos.events(okCancelEvents(
         // TODO get rid of this field
         timestamp: (new Date()).getTime(),
         start_times:[],
-        end_times:[],
+        stop_times:[],
         tags: tag ? [tag] : []
       });
       evt.target.value = '';
@@ -125,16 +125,22 @@ Template.todo_item.adding_tag = function () {
 };
 
 startTimer = function (item_id) {
+    Todos.update(item_id,{$push: {stop_times: Date.now()}});
     timerId = setInterval(
         function(){
-        Todos.update(item_id, {$inc: {total_time: 1}})},
+        Todos.update(item_id, {$inc: {total_time: 1}}),
+        // TODO couldn't find a mongodb way of setting the last
+        // item so I have to remove and replace it :-p
+        Todos.update(item_id,{$pop: {stop_times: 1}});
+        var now = Date.now();
+        console.log(now)
+        Todos.update(item_id,{$push: {stop_times: now}})},
         1000
     );
 }
 
 stopTimer = function(){
     clearInterval(timerId);
-    Todos.update();
 }
 
 UI.registerHelper(
@@ -169,7 +175,6 @@ Template.todo_item.events({
         Todos.update(this._id,{$push: {start_times:Date.now()}});
     }else{
         stopTimer();
-        Todos.update(this._id,{$push: {stop_times:Date.now()}});
     };
   },
 
