@@ -263,6 +263,33 @@ Template.tag_filter.events({
   }
 });
 
+// makeTimelineSegments = function (todo_item){
+//     
+// }
+
+Template.timeline.rendered = function(){
+        
+        data = [
+            {
+                'start': new Date(2010,7,23),
+                'content': 'Conversation<br><img src="img/comments-icon.png" style="width:32px; height:32px;">'
+            },
+            {
+                'start': new Date(2010,7,23,23,0,0),
+                'content': 'Mail from boss<br><img src="img/mail-icon.png" style="width:32px; height:32px;">'
+            },
+            {
+                'start': new Date(2010,7,24,16,0,0),
+                'content': 'Report'
+            }]
+            
+        // Instantiate our timeline object.
+        timeline = new links.Timeline(document.getElementById('timeline'));
+
+        // Draw our timeline with the created data and options
+        timeline.draw(data);
+}
+
 ////////// Accounts //////////
 
 Accounts.ui.config({ passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL' });
