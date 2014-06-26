@@ -80,7 +80,10 @@ Template.todos.events(okCancelEvents(
         text: text,
         list_id: Session.get('list_id'),
         done: false,
+        // TODO get rid of this field
         timestamp: (new Date()).getTime(),
+        start_times:[],
+        end_times:[],
         tags: tag ? [tag] : []
       });
       evt.target.value = '';
@@ -163,10 +166,10 @@ Template.todo_item.events({
     if (!!event.currentTarget.checked){
         Session.set('in_progress_item', this);
         startTimer(this._id);
-        Todos.update({$push: {start_times:Date.now()}});
+        Todos.update(this._id,{$push: {start_times:Date.now()}});
     }else{
         stopTimer();
-        Todos.update({$push: {stop_times:Date.now()}});
+        Todos.update(this._id,{$push: {stop_times:Date.now()}});
     };
   },
 
@@ -263,31 +266,37 @@ Template.tag_filter.events({
   }
 });
 
-// makeTimelineSegments = function (todo_item){
-//     
-// }
-
-Template.timeline.rendered = function(){
-        
-        data = [
-            {
-                'start': new Date(2010,7,23),
-                'content': 'Conversation<br><img src="img/comments-icon.png" style="width:32px; height:32px;">'
-            },
-            {
-                'start': new Date(2010,7,23,23,0,0),
-                'content': 'Mail from boss<br><img src="img/mail-icon.png" style="width:32px; height:32px;">'
-            },
-            {
-                'start': new Date(2010,7,24,16,0,0),
-                'content': 'Report'
-            }]
+startStopData = function(){
+    var tl_items=[];
+    Todos.find().forEach(function(todo_item){
+        for (ind = 0; ind < todo_item.start_times.length; ind ++){
+            tl_items.push(
+                {
+                    'start' : todo_item.start_times[ind],
+                    'end' : todo_item.stop_times[ind],
+                    'content' : todo_item.text
+                }
+            );
             
+        };
+        });
+    return tl_items
+};
+
+Template.timeline.draw = function(){
+    try{
         // Instantiate our timeline object.
-        timeline = new links.Timeline(document.getElementById('timeline'));
+        timeline = new links.Timeline(
+            document.getElementById('timeline')    
+        );
 
         // Draw our timeline with the created data and options
+        var data = startStopData();
         timeline.draw(data);
+    }
+    catch(TypeError){
+        console.log('fail')
+    }
 }
 
 ////////// Accounts //////////
