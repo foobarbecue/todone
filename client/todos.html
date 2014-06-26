@@ -10,7 +10,6 @@
 
   <div id="main-pane">
     {{> todos}}
-    {{> timeline}}
   </div>
   
   <div id="credits">
@@ -62,6 +61,9 @@
         </ul>
       {{/if}}
     </div>
+    {{> timeline}}
+  {{else}}
+  <div class="alert">Sign in to create your todo list.</div>
   {{/if}}
 </template>
 
