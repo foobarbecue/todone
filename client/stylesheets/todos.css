@@ -259,10 +259,6 @@ h3 {
     border: 1px dashed #999;
 }
 
-#item-list .todo .check {
-    width: 25px;
-}
-
 #item-list .todo .todo-text {
     margin-left: 10px;
     font-size: 100%;
