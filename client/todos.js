@@ -303,9 +303,13 @@ Template.timeline.draw = function(){
                     document.getElementById('timeline')   
                 );                
                 tlDrawn=true;
+                var data = startStopData();
+                timeline.draw(data);
+                timeline.setVisibleChartRange(Date.now(),Date.now()+60000);             
+            }else{
+                var data = startStopData();
+                timeline.draw(data);
             }
-            var data = startStopData();
-            timeline.draw(data);
     }
     catch(TypeError){
         console.log('Tried to load timeline before DOM ready, failed.');
