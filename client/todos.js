@@ -169,6 +169,7 @@ Template.todo_item.events({
         Session.set('in_progress_item', this);
         
         event.currentTarget.checked = this.checked;
+        timeline.setVisibleChartRangeNow()
 },
 
   'click .destroy': function () {
@@ -302,7 +303,7 @@ Template.timeline.draw = function(){
                 );                
                 tlDrawn=true;
                 var data = startStopData();
-                timeline.draw(data);
+                timeline.draw(data,{animateZoom:true});
                 timeline.setVisibleChartRange(Date.now(),Date.now()+60000);             
             }else{
                 var data = startStopData();
