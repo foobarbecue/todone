@@ -58,7 +58,6 @@
           {{#each todos}}
             {{> todo_item}}
           {{/each}}
-          {{> pause_button}}
         </ul>
       {{/if}}
     </div>
@@ -79,6 +78,9 @@
       <div class="display">
         <input class="check markdone" name="markdone" type="checkbox" checked={{done}} />Done
         <input class="check markinprogress" name="markinprogress" type="radio" {{checked}}/> Active 
+        {{#if checked}}
+            <button id='pause_button'>Stop</button>
+        {{/if}}
         <div class="todo-text">{{text}}
         </div> 
       </div>
@@ -111,10 +113,6 @@
       {{/if}}
     </div>
   </li>
-</template>
-
-<template name="pause_button">
-    <button>I'm not working on any todos right now.</button>
 </template>
 
 <template name="tag_filter">

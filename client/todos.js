@@ -196,14 +196,14 @@ Template.todo_item.events({
     Meteor.setTimeout(function () {
       Todos.update({_id: id}, {$pull: {tags: tag}});
     }, 300);
+  },
+  'click #pause_button': function(evt){
+      var item_in_progress = Session.get('in_progress_item');
+      Todos.update(item_in_progress._id,{$push: {stop_times: Date.now()}});      
+      Session.set('in_progress_item',null);
   }
+  
 });
-
-Template.pause_button.events({
-    'click button':function(){
-        Session.set('in_progress_item',null);
-    }
-})
 
 Template.todo_item.events(okCancelEvents(
   '#todo-input',
