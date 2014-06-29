@@ -58,6 +58,7 @@
           {{#each todos}}
             {{> todo_item}}
           {{/each}}
+          {{> pause_button}}
         </ul>
       {{/if}}
     </div>
@@ -68,7 +69,7 @@
 </template>
 
 <template name="todo_item">
-  <li class="todo {{done_class}} {{#if inprogress}}active{{/if}}">
+  <li class="todo {{done_class}} {{#if in_progress}}active{{/if}}">
     {{#if editing}}
       <div class="edit">
         <input id="todo-input" type="text" value="{{text}}" />
@@ -77,7 +78,7 @@
       <div class="destroy"></div>
       <div class="display">
         <input class="check markdone" name="markdone" type="checkbox" checked={{done}} />Done
-        <input class="check markinprogress" name="markinprogress" type="checkbox" checked={{inprogress}} />Active
+        <input class="check markinprogress" name="markinprogress" type="radio" {{checked}}/> Active 
         <div class="todo-text">{{text}}
         </div> 
       </div>
@@ -110,6 +111,10 @@
       {{/if}}
     </div>
   </li>
+</template>
+
+<template name="pause_button">
+    <button>I'm not working on any todos right now.</button>
 </template>
 
 <template name="tag_filter">

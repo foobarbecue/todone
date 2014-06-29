@@ -112,8 +112,13 @@ Template.todo_item.done_class = function () {
   return this.done ? 'done' : '';
 };
 
-Template.todo_item.in_progress = function () {
-  return Session.get('in_progress_item') === this;
+Template.todo_item.checked = function () {
+  var in_progress_item = Session.get('in_progress_item');
+  if (!!in_progress_item){
+      if (this._id === Session.get('in_progress_item')._id){
+        return 'checked'
+      }
+  }
 };
 
 Template.todo_item.editing = function () {
@@ -123,26 +128,6 @@ Template.todo_item.editing = function () {
 Template.todo_item.adding_tag = function () {
   return Session.equals('editing_addtag', this._id);
 };
-
-startTimer = function (item_id) {
-    // do this to trigger resetting zoom to extents
-    tlDrawn=false;
-    Todos.update(item_id,{$push: {stop_times: Date.now()}});
-    timerId = setInterval(
-        function(){
-        Todos.update(item_id, {$inc: {total_time: 1}}),
-        // TODO couldn't find a mongodb way of setting the last
-        // item so I have to remove and replace it :-p
-        Todos.update(item_id,{$pop: {stop_times: 1}});
-        var now = Date.now();
-        Todos.update(item_id,{$push: {stop_times: now}})},
-        1000
-    );
-}
-
-stopTimer = function(){
-    clearInterval(timerId);
-}
 
 UI.registerHelper(
     'humanizeTime',
@@ -170,16 +155,21 @@ Template.todo_item.events({
   },
   
   'click .markinprogress': function (event) {
-    if (!!event.currentTarget.checked){
-        Session.set('in_progress_item', this);
-        startTimer(this._id);
-        $(event.currentTarget).parents('li').addClass('inprogress');
+        // end the previous inprogress segment
+        var item_in_progress = Session.get('in_progress_item');
+        if (!!item_in_progress){
+            Todos.update(item_in_progress._id,{$push: {stop_times: Date.now()}});
+            $(event.currentTarget).parents('li').siblings().removeClass('inprogress');
+        }
+
+        // do this to trigger resetting zoom to extents
+//         tlDrawn=false;        
         Todos.update(this._id,{$push: {start_times:Date.now()}});
-    }else{
-        stopTimer();
-        $(event.currentTarget).parents('li').removeClass('inprogress');
-    };
-  },
+        $(event.currentTarget).parents('li').addClass('inprogress');
+        Session.set('in_progress_item', this);
+        
+        event.currentTarget.checked = this.checked;
+},
 
   'click .destroy': function () {
     Todos.remove(this._id);
@@ -208,6 +198,12 @@ Template.todo_item.events({
     }, 300);
   }
 });
+
+Template.pause_button.events({
+    'click button':function(){
+        Session.set('in_progress_item',null);
+    }
+})
 
 Template.todo_item.events(okCancelEvents(
   '#todo-input',
