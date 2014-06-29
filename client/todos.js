@@ -125,6 +125,8 @@ Template.todo_item.adding_tag = function () {
 };
 
 startTimer = function (item_id) {
+    // do this to trigger resetting zoom to extents
+    tlDrawn=false;
     Todos.update(item_id,{$push: {stop_times: Date.now()}});
     timerId = setInterval(
         function(){
@@ -133,7 +135,6 @@ startTimer = function (item_id) {
         // item so I have to remove and replace it :-p
         Todos.update(item_id,{$pop: {stop_times: 1}});
         var now = Date.now();
-        console.log(now)
         Todos.update(item_id,{$push: {stop_times: now}})},
         1000
     );
@@ -288,7 +289,7 @@ startStopData = function(){
     return tl_items
 };
 
-tlDrawnBefore=false;
+tlDrawn=false;
 
 Template.timeline.draw = function(){
     try{
@@ -297,18 +298,18 @@ Template.timeline.draw = function(){
 
             
             // Draw our timeline with the created data and options
-            if (!tlDrawnBefore){
+            if (!tlDrawn){
                 timeline = new links.Timeline(
                     document.getElementById('timeline')   
                 );                
-                tlDrawnBefore=true;
+                tlDrawn=true;
             }
             var data = startStopData();
             timeline.draw(data);
     }
     catch(TypeError){
         console.log('Tried to load timeline before DOM ready, failed.');
-        tlDrawnBefore=false;
+        tlDrawn=false;
         
     }
 }
