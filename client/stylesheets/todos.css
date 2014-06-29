@@ -282,16 +282,23 @@ h3 {
 #timeline {
     height: 100%;
 }
+
 #credits{
     position: fixed;
     bottom: 0;
     right: 20px;
 }
+
 .alert{
     position: fixed;
     top:50%;
     left:50%;
 }
+
 #login-sign-in-link{
     font-size:24pt;    
+}
+
+li.inprogress div.timer{
+    color:green;
 }

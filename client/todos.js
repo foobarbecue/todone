@@ -173,9 +173,11 @@ Template.todo_item.events({
     if (!!event.currentTarget.checked){
         Session.set('in_progress_item', this);
         startTimer(this._id);
+        $(event.currentTarget).parents('li').addClass('inprogress');
         Todos.update(this._id,{$push: {start_times:Date.now()}});
     }else{
         stopTimer();
+        $(event.currentTarget).parents('li').removeClass('inprogress');
     };
   },
 
