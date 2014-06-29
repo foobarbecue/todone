@@ -159,13 +159,13 @@ Template.todo_item.events({
         var item_in_progress = Session.get('in_progress_item');
         if (!!item_in_progress){
             Todos.update(item_in_progress._id,{$push: {stop_times: Date.now()}});
-            $(event.currentTarget).parents('li').siblings().removeClass('inprogress');
+//             $(event.currentTarget).parents('li').siblings().removeClass('inprogress');
         }
 
         // do this to trigger resetting zoom to extents
 //         tlDrawn=false;        
         Todos.update(this._id,{$push: {start_times:Date.now()}});
-        $(event.currentTarget).parents('li').addClass('inprogress');
+//         $(event.currentTarget).parents('li').addClass('inprogress');
         Session.set('in_progress_item', this);
         
         event.currentTarget.checked = this.checked;

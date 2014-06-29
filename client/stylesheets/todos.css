@@ -299,6 +299,6 @@ h3 {
     font-size:24pt;    
 }
 
-li.inprogress div.timer{
+li.in_progress div.timer, li.in_progress div.todo-text{
     color:green;
 }

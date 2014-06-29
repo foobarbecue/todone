@@ -69,7 +69,7 @@
 </template>
 
 <template name="todo_item">
-  <li class="todo {{done_class}} {{#if in_progress}}active{{/if}}">
+  <li class="todo {{done_class}} {{#if checked}}in_progress{{/if}}">
     {{#if editing}}
       <div class="edit">
         <input id="todo-input" type="text" value="{{text}}" />
