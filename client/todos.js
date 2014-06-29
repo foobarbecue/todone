@@ -288,19 +288,28 @@ startStopData = function(){
     return tl_items
 };
 
+tlDrawnBefore=false;
+
 Template.timeline.draw = function(){
     try{
-        // Instantiate our timeline object.
-        timeline = new links.Timeline(
-            document.getElementById('timeline')    
-        );
+//         if (typeof(timeline) == "undefined"){
+            // Instantiate our timeline object.
 
-        // Draw our timeline with the created data and options
-        var data = startStopData();
-        timeline.draw(data);
+            
+            // Draw our timeline with the created data and options
+            if (!tlDrawnBefore){
+                timeline = new links.Timeline(
+                    document.getElementById('timeline')   
+                );                
+                tlDrawnBefore=true;
+            }
+            var data = startStopData();
+            timeline.draw(data);
     }
     catch(TypeError){
-        console.log('fail')
+        console.log('Tried to load timeline before DOM ready, failed.');
+        tlDrawnBefore=false;
+        
     }
 }
 
