@@ -302,3 +302,15 @@ h3 {
 li.in_progress div.timer, li.in_progress div.todo-text{
     color:green;
 }
+
+li:not(.in_progress) .start, li.in_progress .stop{
+    display: inline;
+}
+
+li.in_progress .start, li:not(.in_progress) .stop{
+    display: none;
+}
+
+li.done .start, li.done .stop{
+    display: none;
+}

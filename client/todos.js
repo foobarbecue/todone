@@ -109,21 +109,14 @@ Template.todo_item.done_class = function () {
   return this.done ? 'done' : '';
 };
 
-Template.todo_item.in_progress = function (this_in) {
-  this_in = this_in || this;
+Template.todo_item.in_progress = function () {
   if (Session.get('in_progress_item')){
-    return this_in._id === Session.get('in_progress_item')._id;
+    return this._id === Session.get('in_progress_item')._id;
   }
   else{
     return false
   }      
 };
-
-Template.todo_item.checked = function(){
-  if (Template.todo_item.in_progress(this)){
-      return 'checked'
-  }
-}
 
 Template.todo_item.editing = function () {
   return Session.equals('editing_itemname', this._id);
@@ -156,26 +149,24 @@ UI.registerHelper(
 Template.todo_item.events({
   'click .markdone': function () {
     Todos.update(this._id, {$set: {done: !this.done, done_time: Date()}});
+    Session.set('in_progress_item',null);
   },
   
-  'click .markinprogress': function (event) {
+  'click .start': function (event) {
         // end the previous inprogress segment
         var item_in_progress = Session.get('in_progress_item');
         if (!!item_in_progress){
             Todos.update(item_in_progress._id,{$push: {stop_times: Date.now()}});
-//             $(event.currentTarget).parents('li').siblings().removeClass('inprogress');
         }
-
-        // do this to trigger resetting zoom to extents
-//         tlDrawn=false;        
         Todos.update(this._id,{$push: {start_times:Date.now()}});
-//         $(event.currentTarget).parents('li').addClass('inprogress');
         Session.set('in_progress_item', this);
-        
-        event.currentTarget.checked = this.checked;
         timeline.setVisibleChartRangeNow()
 },
-
+  'click .stop': function(evt){
+      var item_in_progress = Session.get('in_progress_item');
+      Todos.update(item_in_progress._id,{$push: {stop_times: Date.now()}});      
+      Session.set('in_progress_item',null);
+  },
   'click .destroy': function () {
     Todos.remove(this._id);
   },
@@ -201,11 +192,6 @@ Template.todo_item.events({
     Meteor.setTimeout(function () {
       Todos.update({_id: id}, {$pull: {tags: tag}});
     }, 300);
-  },
-  'click #pause_button': function(evt){
-      var item_in_progress = Session.get('in_progress_item');
-      Todos.update(item_in_progress._id,{$push: {stop_times: Date.now()}});      
-      Session.set('in_progress_item',null);
   }
   
 });

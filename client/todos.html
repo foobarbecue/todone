@@ -40,7 +40,7 @@
 </template>
 
 <template name="todo_item">
-  <li class="todo {{done_class}} {{#if checked}}in_progress{{/if}}">
+  <li class="todo {{done_class}} {{#if in_progress}}in_progress{{/if}} {{#if done}}done{{/if}}">
     {{#if editing}}
       <div class="edit">
         <input id="todo-input" type="text" value="{{text}}" />
@@ -48,11 +48,9 @@
     {{else}}
       <div class="destroy"></div>
       <div class="display">
-        <input class="check markdone" name="markdone" type="checkbox" checked={{done}} />Done
-        <input class="check markinprogress" name="markinprogress" type="radio" {{checked}}/> Active 
-        {{#if checked}}
-            <button id='pause_button'>Stop</button>
-        {{/if}}
+        <input class="check markdone" name="markdone" type="checkbox" checked={{done}} />
+        <button class="start">Start</button>
+        <button class="stop">Stop</button>
         <div class="todo-text">{{text}}
         </div> 
       </div>
