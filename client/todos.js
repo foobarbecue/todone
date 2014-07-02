@@ -3,20 +3,17 @@
 // Define Minimongo collections to match server/publish.js.
 Todos = new Meteor.Collection("todos");
 
-// ID of currently selected list
-Session.setDefault('list_id', null);
-
 // Name of currently selected tag for filtering
 Session.setDefault('tag_filter', null);
 
 // When adding tag to a todo, ID of the todo
 Session.setDefault('editing_addtag', null);
 
-// When editing a list name, ID of the list
-Session.setDefault('editing_listname', null);
-
 // When editing todo text, ID of the todo
 Session.setDefault('editing_itemname', null);
+
+// Todo item that is currently being worked on for time tracking
+Session.setDefault('in_progress_item', null)
 
 var todosHandle = null;
 // Always be subscribed to the todos for the selected user.
@@ -112,14 +109,21 @@ Template.todo_item.done_class = function () {
   return this.done ? 'done' : '';
 };
 
-Template.todo_item.checked = function () {
-  var in_progress_item = Session.get('in_progress_item');
-  if (!!in_progress_item){
-      if (this._id === Session.get('in_progress_item')._id){
-        return 'checked'
-      }
+Template.todo_item.in_progress = function (this_in) {
+  this_in = this_in || this;
+  if (Session.get('in_progress_item')){
+    return this_in._id === Session.get('in_progress_item')._id;
   }
+  else{
+    return false
+  }      
 };
+
+Template.todo_item.checked = function(){
+  if (Template.todo_item.in_progress(this)){
+      return 'checked'
+  }
+}
 
 Template.todo_item.editing = function () {
   return Session.equals('editing_itemname', this._id);
