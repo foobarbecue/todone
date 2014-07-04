@@ -15,9 +15,8 @@ startTimer = function () {
         1000
     );
 }
-
 stopTimer = function(){
     clearInterval(timerId);
 }
-
 startTimer();
+tlDrawn=false;

@@ -160,7 +160,6 @@ Template.todo_item.events({
         }
         Todos.update(this._id,{$push: {start_times:Date.now()}});
         Session.set('in_progress_item', this);
-        timeline.setVisibleChartRangeNow()
 },
   'click .stop': function(evt){
       var item_in_progress = Session.get('in_progress_item');
@@ -269,7 +268,8 @@ startStopData = function(){
                 {
                     'start' : todo_item.start_times[ind],
                     'end' : todo_item.stop_times[ind],
-                    'content' : todo_item.text
+                    'content' : '',
+                    'group' : todo_item.text
                 }
             );
             
@@ -288,16 +288,16 @@ Template.timeline.draw = function(){
             
             // Draw our timeline with the created data and options
             if (!tlDrawn){
-                timeline = new links.Timeline(
+                timeline = new vis.Timeline(
                     document.getElementById('timeline')   
                 );                
-                tlDrawn=true;
                 var data = startStopData();
-                timeline.draw(data,{animateZoom:true});
-                timeline.setVisibleChartRange(Date.now(),Date.now()+60000);             
+                timeline.setItems(data,{animateZoom:true});
+                timeline.setWindow(Date.now(),Date.now()+60000);             
+                tlDrawn=true;                
             }else{
                 var data = startStopData();
-                timeline.draw(data);
+                timeline.setItems(data);
             }
     }
     catch(TypeError){
