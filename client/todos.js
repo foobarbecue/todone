@@ -106,7 +106,8 @@ Template.todo_item.tag_objs = function () {
 };
 
 Template.todo_item.done_class = function () {
-  return this.done ? 'done' : '';
+  //  return this.done ? 'done' : '';
+  return $.inArray("done",this.tags) > -1 ? 'done' : '';
 };
 
 Template.todo_item.in_progress = function () {
@@ -147,8 +148,8 @@ UI.registerHelper(
    )
 
 Template.todo_item.events({
-  'click .markdone': function () {
-    Todos.update(this._id, {$set: {done: !this.done, done_time: Date()}});
+  'click .finished': function () {   
+    Todos.update(this._id, {$addToSet: {tags: 'done'}});
     Session.set('in_progress_item',null);
   },
   
@@ -161,7 +162,7 @@ Template.todo_item.events({
         Todos.update(this._id,{$push: {start_times:Date.now()}});
         Session.set('in_progress_item', this);
 },
-  'click .stop': function(evt){
+  'click .pause': function(evt){
       var item_in_progress = Session.get('in_progress_item');
       Todos.update(item_in_progress._id,{$push: {stop_times: Date.now()}});      
       Session.set('in_progress_item',null);

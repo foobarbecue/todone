@@ -303,11 +303,11 @@ li.in_progress div.timer, li.in_progress div.todo-text{
     color:green;
 }
 
-li:not(.in_progress) .start, li.in_progress .stop{
+li:not(.in_progress) .start, li.in_progress .pause, li.in_progress .finished{
     display: inline;
 }
 
-li.in_progress .start, li:not(.in_progress) .stop{
+li.in_progress .start, li:not(.in_progress) .pause, li:not(.in_progress) .finished{
     display: none;
 }
 
