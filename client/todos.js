@@ -282,6 +282,8 @@ startStopData = function(){
 tlDrawn=false;
 
 Template.timeline.draw = function(){
+    var data = startStopData();
+    console.log('refreshed timeline');
     try{
 //         if (typeof(timeline) == "undefined"){
             // Instantiate our timeline object.
@@ -292,21 +294,23 @@ Template.timeline.draw = function(){
                 timeline = new vis.Timeline(
                     document.getElementById('timeline')   
                 );                
-                var data = startStopData();
                 timeline.setItems(data,{animateZoom:true});
                 timeline.setWindow(Date.now(),Date.now()+60000);             
                 tlDrawn=true;                
             }else{
-                var data = startStopData();
                 timeline.setItems(data);
             }
     }
     catch(TypeError){
         console.log('Tried to load timeline before DOM ready, failed.');
         tlDrawn=false;
-        
     }
 }
+
+// Template.timeline.draw = function() {
+//     startStopData();
+//     console.log('refreshed timeline');
+// }
 
 ////////// Accounts //////////
 
