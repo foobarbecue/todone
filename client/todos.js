@@ -315,3 +315,11 @@ Template.timeline.draw = function(){
 ////////// Accounts //////////
 
 Accounts.ui.config({ passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL' });
+
+// better if this was in a onLogin, but there's no way to do that ATM
+// see https://github.com/meteor/meteor/issues/1074
+Meteor.autorun(function() {
+  if (Meteor.user()) {
+    tlDrawn=false;
+  }
+});
