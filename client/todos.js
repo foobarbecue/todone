@@ -283,7 +283,6 @@ tlDrawn=false;
 
 Template.timeline.draw = function(){
     var data = startStopData();
-    console.log('refreshed timeline');
     try{
 //         if (typeof(timeline) == "undefined"){
             // Instantiate our timeline object.
