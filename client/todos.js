@@ -4,7 +4,7 @@
 Todos = new Meteor.Collection("todos");
 
 // Name of currently selected tag for filtering
-Session.setDefault('tag_filter', null);
+Session.setDefault('tag_filter', {});
 
 // When adding tag to a todo, ID of the todo
 Session.setDefault('editing_addtag', null);
@@ -71,7 +71,6 @@ Template.todos.events(okCancelEvents(
   '#new-todo',
   {
     ok: function (text, evt) {
-      var tag = Session.get('tag_filter');
       Todos.insert({
         created_by: Meteor.userId(),
         text: text,
@@ -81,7 +80,7 @@ Template.todos.events(okCancelEvents(
         timestamp: (new Date()).getTime(),
         start_times:[],
         stop_times:[],
-        tags: tag ? [tag] : []
+        tags: [],
       });
       evt.target.value = '';
     }
@@ -92,10 +91,12 @@ Template.todos.todos = function () {
   // selected based on list_id and tag_filter.
 
   var tag_filter = Session.get('tag_filter');
-  if (tag_filter)
-    return Todos.find({tags: tag_filter}, {sort: {timestamp: 1}});
-  else
-    return Todos.find({},{sort: {timestamp: 1}});
+//     return Todos.find({tags: tag_filter}, {sort: {timestamp: 1}});
+  var tag_list = []
+  for (tag in tag_filter){
+      if (tag_filter[tag]) { tag_list.push(tag) };
+  }
+  return Todos.find({tags:{$in:tag_list}});
 };
 
 Template.todo_item.tag_objs = function () {
@@ -148,7 +149,7 @@ UI.registerHelper(
    )
 
 Template.todo_item.events({
-  'click .finished': function () {   
+  'click .finished': function () {
     Todos.update(this._id, {$addToSet: {tags: 'done'}});
     Session.set('in_progress_item',null);
   },
@@ -249,15 +250,20 @@ Template.tag_filter.tag_text = function () {
 };
 
 Template.tag_filter.selected = function () {
-  return Session.equals('tag_filter', this.tag) ? 'selected' : '';
+    var tag_filter = Session.get('tag_filter');
+    return tag_filter[this.tag] ? tag_filter[this.tag] : '';
 };
 
 Template.tag_filter.events({
   'mousedown .tag': function () {
-    if (Session.equals('tag_filter', this.tag))
-      Session.set('tag_filter', null);
-    else
-      Session.set('tag_filter', this.tag);
+    var tag_filter = Session.get('tag_filter');
+    console.log(this.tag)
+    if (tag_filter[this.tag]){
+      tag_filter[this.tag] = false;
+    }else{
+      tag_filter[this.tag] = 'selected';
+    }
+  Session.set('tag_filter', tag_filter);
   }
 });
 
