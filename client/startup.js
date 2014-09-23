@@ -19,4 +19,3 @@ stopTimer = function(){
     clearInterval(timerId);
 };
 startTimer();
-tlDrawn=false;
