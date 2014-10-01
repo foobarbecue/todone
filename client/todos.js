@@ -8,7 +8,7 @@ Session.setDefault('tag_filter', {});
 
 // When adding tag to a todo, ID of the todo
 Session.setDefault('editing_addtag', null);
-
+http://www.bbc.com/news/world-europe-29413045
 // When editing todo text, ID of the todo
 Session.setDefault('editing_itemname', null);
 
@@ -254,15 +254,31 @@ Template.tag_filter.selected = function () {
     return tag_filter[this.tag] ? tag_filter[this.tag] : '';
 };
 
+Template.tag_filter.status = function () {      
+    return Session.get('tag_filter')[this.tag];
+}
+
 Template.tag_filter.events({
   'mousedown .tag': function () {
     var tag_filter = Session.get('tag_filter');
-    console.log(this.tag)
-    if (tag_filter[this.tag]){
-      tag_filter[this.tag] = false;
-    }else{
-      tag_filter[this.tag] = 'selected';
+//     console.log(this.tag)
+//     if (tag_filter[this.tag]){
+//       tag_filter[this.tag] = false;
+//     }else{
+//       tag_filter[this.tag] = 'selected';
+//     }
+    switch (tag_filter[this.tag]){
+        case 'excluded':
+            tag_filter[this.tag] = false;
+            break;
+        case 'included':
+            tag_filter[this.tag] = 'excluded';
+            break;
+        default:
+            tag_filter[this.tag] = 'included';
+            break;
     }
+    
   Session.set('tag_filter', tag_filter);
   }
 });

@@ -122,8 +122,12 @@ h3 {
     border: 1px solid #777;
 }
 
-#tag-filter .selected {
+#tag-filter .included {
     background: #69d;
+}
+
+#tag-filter .excluded {
+    background: #f55;
 }
 
 #tag-filter .count {
