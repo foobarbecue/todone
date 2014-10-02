@@ -92,11 +92,22 @@ Template.todos.todos = function () {
 
   var tag_filter = Session.get('tag_filter');
 //     return Todos.find({tags: tag_filter}, {sort: {timestamp: 1}});
-  var tag_list = []
+  var included_tags = [];
+  var excluded_tags = [];
   for (tag in tag_filter){
-      if (tag_filter[tag]) { tag_list.push(tag) };
+      switch (tag_filter[tag]){
+          case 'included':
+              included_tags.push(tag)
+              break;
+          case 'excluded':
+              excluded_tags.push(tag)
+              break;
+          default:
+              break
+      }
   }
-  return Todos.find({tags:{$in:tag_list}});
+  return Todos.find({$and:[{tags:{$in:included_tags}},
+                           {tags:{$not:{$in:excluded_tags}}}]});
 };
 
 Template.todo_item.tag_objs = function () {
