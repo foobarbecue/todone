@@ -302,7 +302,7 @@ startStopData = function(){
                 {
                     'start' : todo_item.start_times[ind],
                     'end' : todo_item.stop_times[ind],
-                    'content' : '',
+                    'content' : todo_item.text,
                     'group' : todo_item.text
                 }
             );
