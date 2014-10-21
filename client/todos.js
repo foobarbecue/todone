@@ -106,8 +106,20 @@ Template.todos.todos = function () {
               break
       }
   }
-  return Todos.find({$and:[{tags:{$in:included_tags}},
-                           {tags:{$not:{$in:excluded_tags}}}]});
+  
+  // The "All items" tag comes through as 'null'. Handle it as a special case.
+  if ($.inArray("null", included_tags) > -1) {
+      return Todos.find({tags:{$not:{$in:excluded_tags}}})
+  }
+  else if ($.inArray("null", excluded_tags) > -1){
+      return Todos.find({tags:{$in:included_tags}})
+  }
+  else{
+      return Todos.find({$and:[
+                        {tags:{$in:included_tags}},
+                        {tags:{$not:{$in:excluded_tags}}}
+                          ]});
+  }
 };
 
 Template.todo_item.tag_objs = function () {
