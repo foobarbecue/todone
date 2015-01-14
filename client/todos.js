@@ -4,7 +4,8 @@
 Todos = new Meteor.Collection("todos");
 
 // Name of currently selected tag for filtering
-Session.setDefault('tag_filter', {});
+// null here is the "All items" tag; shows all items by default
+Session.setDefault('tag_filter', {null:'included'});
 
 // When adding tag to a todo, ID of the todo
 Session.setDefault('editing_addtag', null);
