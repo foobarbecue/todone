@@ -9,12 +9,12 @@ Session.setDefault('tag_filter', {null:'included'});
 
 // When adding tag to a todo, ID of the todo
 Session.setDefault('editing_addtag', null);
-http://www.bbc.com/news/world-europe-29413045
+
 // When editing todo text, ID of the todo
 Session.setDefault('editing_itemname', null);
 
 // Todo item that is currently being worked on for time tracking
-Session.setDefault('in_progress_item', null)
+Session.setDefault('in_progress_item', null);
 
 var todosHandle = null;
 // Always be subscribed to the todos for the selected user.
@@ -81,7 +81,7 @@ Template.todos.events(okCancelEvents(
         timestamp: (new Date()).getTime(),
         start_times:[],
         stop_times:[],
-        tags: [],
+        tags: []
       });
       evt.target.value = '';
     }
@@ -98,10 +98,10 @@ Template.todos.todos = function () {
   for (tag in tag_filter){
       switch (tag_filter[tag]){
           case 'included':
-              included_tags.push(tag)
+              included_tags.push(tag);
               break;
           case 'excluded':
-              excluded_tags.push(tag)
+              excluded_tags.push(tag);
               break;
           default:
               break
@@ -170,7 +170,7 @@ UI.registerHelper(
         }
         
     }
-   )
+   );
 
 Template.todo_item.events({
   'click .finished': function () {
@@ -178,7 +178,7 @@ Template.todo_item.events({
     Session.set('in_progress_item',null);
   },
   
-  'click .start': function (event) {
+  'click .start': function (evt) {
         // end the previous inprogress segment
         var item_in_progress = Session.get('in_progress_item');
         if (!!item_in_progress){
@@ -280,7 +280,7 @@ Template.tag_filter.selected = function () {
 
 Template.tag_filter.status = function () {      
     return Session.get('tag_filter')[this.tag];
-}
+};
 
 Template.tag_filter.events({
   'mousedown .tag': function () {
@@ -320,7 +320,7 @@ startStopData = function(){
                 }
             );
             
-        };
+        }
         });
     return tl_items
 };
@@ -350,7 +350,7 @@ Template.timeline.draw = function(){
         console.log('Tried to load timeline before DOM ready, failed.');
         tlDrawn=false;
     }
-}
+};
 
 // Template.timeline.draw = function() {
 //     startStopData();
