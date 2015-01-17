@@ -15,11 +15,13 @@ body {
     font-size: 16px;
     line-height: 1.5;
     background: #eeeeee;
-    color: #333333;
+    color: #444444;
+    bottom:20px;
 }
 
 body, input {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    
 }
 
 input {
@@ -48,10 +50,11 @@ h3 {
 }
 
 #top-tag-filter {
-    height: 44px;
+    height: 55px;
     bottom: auto;
-    background: #ddd;
+    background: #676767;
     border-bottom: 1px solid #999;
+    padding-left:20px;
 }
 
 #help {
@@ -59,9 +62,13 @@ h3 {
 }
 
 #main-pane {
-    top: 45px;
-    bottom: 0;
+    top: 70px;
+    bottom:30px;
     overflow: auto;
+    margin-left: 70px;
+    margin-right: 70px;
+    border: 1px solid #ddd;
+    background: #fff;
 }
 
 #side-pane {
@@ -115,6 +122,7 @@ h3 {
     margin-top: 9px;
     margin-left: 12px;
     margin-right: 8px;
+    color:#fff;
 }
 
 #tag-filter .tag {
@@ -163,7 +171,7 @@ h3 {
 #new-todo-box {
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 60px;
+    margin-left: 20px;
     margin-right: 20px;
     font-size: 160%;
     position: relative;
@@ -173,6 +181,8 @@ h3 {
 #new-todo {
    position: absolute;
    width: 100%;
+   border:2px solid #999;
+   background:#eee;
 }
 
 #items-view {
@@ -279,18 +289,26 @@ h3 {
 
 #login-buttons {
     position: absolute;
-    right: 0px;
+    right: 20px;
+    top:5px;
     z-index: 1;
 }
 
+#login-buttons a {
+    color:#fff;
+    padding:5px;
+    top:5px;
+}
+
 #timeline {
-    height: 100%;
+    height: auto;
+    margin-bottom:20px;
 }
 
 #credits{
     position: fixed;
     bottom: 0;
-    right: 20px;
+    right: 100px;
 }
 
 .alert{
