@@ -217,7 +217,11 @@ Template.todo_item.events({
     Meteor.setTimeout(function () {
       Todos.update({_id: id}, {$pull: {tags: tag}});
     }, 300);
-  }
+  },
+
+    'change .notes': function (evt) {
+        Todos.update(this._id, {$set:{notes:evt.target.value}});
+    }
   
 });
 
